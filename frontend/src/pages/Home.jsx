@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 // import { AiOutlineEdit } from 'react-icons/ai';
 // import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
-// import BooksTable from '../components/home/BooksTable';
-// import BooksCard from '../components/home/BooksCard';
+import BooksTable from '../components/BooksTable';
+import BooksCard from '../components/BooksCard';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -15,6 +15,8 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
+    const type = window.localStorage.getItem('showType');
+    if (type !== null) setShowType(type);
     axios.get('/books')
       .then((response) => {
         setBooks(response.data.data);
@@ -25,6 +27,10 @@ const Home = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('showType', showType);
+  }, [showType])
 
   return (
     <div className='p-4'>
@@ -50,8 +56,10 @@ const Home = () => {
       </div>
       {loading ? (
         <Spinner />
+      ) : showType === 'table' ? (
+        <BooksTable books={books} />
       ) : (
-        <div>Loaded</div>
+        <BooksCard books={books} />
       )}
     </div>
   );
