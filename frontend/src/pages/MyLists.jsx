@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdOutlineAddBox } from 'react-icons/md';
-import ListCards from './'
+import axios from 'axios';
+import Spinner from '../components/Spinner';
+import ListCards from '../components/MyListCards';
+
 const MyLists = () => {
   const [myLists, setMyLists] = useState([]);
   const [loading, setLoading] = useState(false);
